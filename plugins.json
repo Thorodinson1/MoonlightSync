@@ -1,0 +1,94 @@
+[
+    {
+        "iconUrl": "https://media.discordapp.net/attachments/1059306855865782282/1123970193274712096/Anichi.png",
+        "apiVersion": 1,
+        "repositoryUrl": "https://github.com/Thorodinson1/MoonlightSync",
+        "fileSize": 62175,
+        "status": 1,
+        "language": "en",
+        "authors": [
+            "Hexated"
+        ],
+        "tvTypes": [
+            "AnimeMovie",
+            "Anime",
+            "OVA"
+        ],
+        "version": 9,
+        "internalName": "Anichi",
+        "url": "https://raw.githubusercontent.com/Thorodinson1/MoonlightSync/builds/Anichi.cs3",
+        "name": "Anichi"
+    },
+    {
+        "iconUrl": "https://www.google.com/s2/favicons?domain=aniwatch.to&sz=24",
+        "apiVersion": 1,
+        "repositoryUrl": "https://github.com/Thorodinson1/MoonlightSync",
+        "fileSize": 53911,
+        "status": 1,
+        "authors": [
+            "Hexated"
+        ],
+        "version": 19,
+        "internalName": "Aniwatch",
+        "description": "Aniwatch Anime",
+        "url": "https://raw.githubusercontent.com/Thorodinson1/MoonlightSync/builds/Aniwatch.cs3",
+        "name": "Aniwatch"
+    },
+    {
+        "iconUrl": "https://www.google.com/s2/favicons?domain=mhdtvworld.tv&sz=%size%",
+        "apiVersion": 1,
+        "repositoryUrl": "https://github.com/Thorodinson1/MoonlightSync",
+        "fileSize": 17376,
+        "status": 1,
+        "language": "hi",
+        "authors": [
+            "darkdemon"
+        ],
+        "tvTypes": [
+            "Live"
+        ],
+        "version": 4,
+        "internalName": "MHDTVProvider",
+        "description": "This website support English/Hindi/Kannada/Malayalam/Tamil/Telugu live channels and Hindi Old Movies/Malayalam Movies \n For language in Sports: Please check background image[country flag] of the episode",
+        "url": "https://raw.githubusercontent.com/Thorodinson1/MoonlightSync/builds/MHDTVProvider.cs3",
+        "name": "MHDTVProvider"
+    },
+    {
+        "iconUrl": "https://www.google.com/s2/favicons?domain=sflix.to&sz=24",
+        "apiVersion": 1,
+        "repositoryUrl": "https://github.com/Thorodinson1/MoonlightSync",
+        "fileSize": 42908,
+        "status": 1,
+        "authors": [
+            "Hexated"
+        ],
+        "version": 22,
+        "internalName": "Sflix",
+        "description": "Movies",
+        "url": "https://raw.githubusercontent.com/Thorodinson1/MoonlightSync/builds/Sflix.cs3",
+        "name": "Sflix"
+    },
+    {
+        "iconUrl": "https://raw.githubusercontent.com/hexated/cloudstream-extensions-hexated/master/SoraStream/Icon.png",
+        "apiVersion": 1,
+        "repositoryUrl": "https://github.com/Thorodinson1/MoonlightSync",
+        "fileSize": 276607,
+        "status": 1,
+        "language": "en",
+        "authors": [
+            "Hexated",
+            "Sora"
+        ],
+        "tvTypes": [
+            "AsianDrama",
+            "TvSeries",
+            "Anime",
+            "Movie"
+        ],
+        "version": 209,
+        "internalName": "SoraStream",
+        "description": "#1 best extention based on MultiAPI",
+        "url": "https://raw.githubusercontent.com/Thorodinson1/MoonlightSync/builds/SoraStream.cs3",
+        "name": "SoraStream"
+    }
+]
