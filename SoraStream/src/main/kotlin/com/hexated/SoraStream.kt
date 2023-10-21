@@ -40,12 +40,11 @@ import com.hexated.SoraExtractor.invokeMultimovies
 import com.hexated.SoraExtractor.invokeNetmovies
 import com.hexated.SoraExtractor.invokePobmovies
 import com.hexated.SoraExtractor.invokeGomovies
-import com.hexated.SoraExtractor.invokePutactor
+import com.hexated.SoraExtractor.invokeMovies123
 import com.hexated.SoraExtractor.invokeSFMovies
 import com.hexated.SoraExtractor.invokeShowflix
 import com.hexated.SoraExtractor.invokeTvMovies
 import com.hexated.SoraExtractor.invokeUhdmovies
-import com.hexated.SoraExtractor.invokeVatic
 import com.hexated.SoraExtractor.invokeVegamovies
 import com.hexated.SoraExtractor.invokeVidsrcto
 import com.hexated.SoraExtractor.invokeWatchOnline
@@ -114,14 +113,14 @@ open class SoraStream : TmdbProvider() {
         const val navyAPI = "https://navy-issue-i-239.site"
         const val emoviesAPI = "https://emovies.si"
         const val pobmoviesAPI = "https://pobmovies.cam"
-        const val multimoviesAPI = "https://multi-movies.xyz"
+        const val multimoviesAPI = "https://multimovies.live"
         const val netmoviesAPI = "https://netmovies.to"
         const val momentAPI = "https://moment-explanation-i-244.site"
         const val doomoviesAPI = "https://doomovies.net"
         const val vidsrctoAPI = "https://vidsrc.to"
         const val dramadayAPI = "https://dramaday.me"
         const val animetoshoAPI = "https://animetosho.org"
-        const val putactorAPI = "https://putlocker.actor"
+        const val movies123API = "https://new-movies123.link"
         const val jump1API = "https://ca.jump1.net"
         const val vegaMoviesAPI = "https://vegamovies.id"
         const val hdmovies4uAPI = "https://hdmovies4u.name"
@@ -589,7 +588,7 @@ open class SoraStream : TmdbProvider() {
                 )
             },
             {
-                if (!res.isAnime) invokePutactor(
+                if (!res.isAnime) invokeMovies123(
                     res.title,
                     res.year,
                     res.season,
@@ -743,15 +742,6 @@ open class SoraStream : TmdbProvider() {
                 if (!res.isAnime) invokeShowflix(
                     res.title,
                     res.year,
-                    res.season,
-                    res.episode,
-                    subtitleCallback,
-                    callback
-                )
-            },
-            {
-                if (!res.isAnime) invokeVatic(
-                    res.id,
                     res.season,
                     res.episode,
                     subtitleCallback,

@@ -27,10 +27,9 @@ import com.hexated.SoraExtractor.invokeMoment
 import com.hexated.SoraExtractor.invokeMultimovies
 import com.hexated.SoraExtractor.invokeNetmovies
 import com.hexated.SoraExtractor.invokeGomovies
-import com.hexated.SoraExtractor.invokePutactor
+import com.hexated.SoraExtractor.invokeMovies123
 import com.hexated.SoraExtractor.invokeSFMovies
 import com.hexated.SoraExtractor.invokeShowflix
-import com.hexated.SoraExtractor.invokeVatic
 import com.hexated.SoraExtractor.invokeVidSrc
 import com.hexated.SoraExtractor.invokeVidsrcto
 import com.hexated.SoraExtractor.invokeWatchOnline
@@ -208,7 +207,7 @@ class SoraStreamLite : SoraStream() {
                 if (!res.isAnime) invokeGomovies(res.title, res.year, res.season, res.episode, callback)
             },
             {
-                if (!res.isAnime) invokePutactor(res.title, res.year, res.season, res.episode, callback)
+                if (!res.isAnime) invokeMovies123(res.title, res.year, res.season, res.episode, callback)
             },
             {
                 invokeWatchOnline(
@@ -307,15 +306,6 @@ class SoraStreamLite : SoraStream() {
                 if (!res.isAnime) invokeShowflix(
                     res.title,
                     res.year,
-                    res.season,
-                    res.episode,
-                    subtitleCallback,
-                    callback
-                )
-            },
-            {
-                if (!res.isAnime) invokeVatic(
-                    res.id,
                     res.season,
                     res.episode,
                     subtitleCallback,
