@@ -77,7 +77,7 @@ class CricHDProvider : MainAPI() { // all providers must be an instance of MainA
             url,
             TvType.TvSeries,
             episodes.asSequence().filterNot { it.name == "Channel Name" }
-                .filterNot { it.data == "https://www.crichd.com/link.php" }
+                .filterNot { it.data == "https://crichdstreaming.xyz/link.php" }
                 .filter { it.data.isNotEmpty() && it.name!!.isNotEmpty() }.toList()
         )
     }
