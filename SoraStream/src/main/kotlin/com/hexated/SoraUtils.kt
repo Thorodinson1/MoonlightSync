@@ -34,6 +34,8 @@ import java.security.*
 import java.security.spec.PKCS8EncodedKeySpec
 import java.security.spec.X509EncodedKeySpec
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.*
 import javax.crypto.Cipher
 import javax.crypto.spec.GCMParameterSpec
@@ -375,6 +377,15 @@ suspend fun extractOiya(url: String, quality: String): String? {
         ?: doc.selectFirst("div.wp-block-button a")?.attr("href")
 }
 
+fun deobfstr(hash: String, index: String): String {
+    var result = ""
+    for (i in hash.indices step 2) {
+        val j = hash.substring(i, i + 2)
+        result += (j.toInt(16) xor index[(i / 2) % index.length].code).toChar()
+    }
+    return result
+}
+
 suspend fun extractCovyn(url: String?): Pair<String?, String?>? {
     val request = session.get(url ?: return null, referer = "${tvMoviesAPI}/")
     val filehosting = session.baseClient.cookieJar.loadForRequest(url.toHttpUrl())
@@ -436,48 +447,20 @@ suspend fun invokeSmashyFfix(
     ref: String,
     callback: (ExtractorLink) -> Unit,
 ) {
-    val res = app.get(url, referer = ref).text
-    val source = Regex("['\"]?file['\"]?:\\s*\"([^\"]+)").find(res)?.groupValues?.get(1) ?: return
-
-    source.split(",").map { links ->
-        val quality = Regex("\\[(\\d+)]").find(links)?.groupValues?.getOrNull(1)?.trim()
-        val link = links.removePrefix("[$quality]").trim()
+    val json = app.get(url, referer = ref, headers = mapOf("X-Requested-With" to "XMLHttpRequest"))
+        .parsedSafe<SmashySources>()
+    json?.sourceUrls?.map {
         callback.invoke(
             ExtractorLink(
                 "Smashy [$name]",
                 "Smashy [$name]",
-                decode(link).replace("\\/", "/"),
-                smashyStreamAPI,
-                quality?.toIntOrNull() ?: return@map,
-                isM3u8 = link.contains(".m3u8"),
+                it,
+                if(name == "Player FM") "https://vidplay.site/" else "",
+                Qualities.P1080.value,
+                INFER_TYPE
             )
         )
     }
-
-}
-
-suspend fun invokeSmashyFm(
-    name: String,
-    url: String,
-    ref: String,
-    callback: (ExtractorLink) -> Unit,
-) {
-    fun String.removeProxy(): String {
-        return if (this.contains("proxy")) {
-            "https${this.substringAfterLast("https")}"
-        } else {
-            this
-        }
-    }
-
-    val res = app.get(url, referer = ref).text
-    val source = Regex("['\"]?file['\"]?:\\s*\"([^\"]+)").find(res)?.groupValues?.get(1) ?: return
-
-    M3u8Helper.generateM3u8(
-        "Smashy [$name]",
-        source.removeProxy(),
-        "https://vidplay.site/"
-    ).forEach(callback)
 
 }
 
@@ -1298,9 +1281,22 @@ fun isUpcoming(dateString: String?): Boolean {
     }
 }
 
+fun getDate() : TmdbDate {
+    val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    val calender = Calendar.getInstance()
+    val today = formatter.format(calender.time)
+    calender.add(Calendar.WEEK_OF_YEAR, 1)
+    val nextWeek = formatter.format(calender.time)
+    return TmdbDate(today, nextWeek)
+}
+
 fun decode(input: String): String = URLDecoder.decode(input, "utf-8")
 
 fun encode(input: String): String = URLEncoder.encode(input, "utf-8").replace("+", "%20")
+
+fun base64DecodeAPI(api: String): String {
+    return api.chunked(4).map { base64Decode(it) }.reversed().joinToString("")
+}
 
 fun decryptStreamUrl(data: String): String {
 

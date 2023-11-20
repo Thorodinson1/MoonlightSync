@@ -247,8 +247,12 @@ object NineTv {
             callback: (ExtractorLink) -> Unit
         ) {
             val mainUrl = getBaseUrl(url)
-            val res = app.get(url, referer = referer)
-            val master = Regex("JScript\\s*=\\s*'([^']+)").find(res.text)?.groupValues?.get(1)
+            val res = app.get(url, headers = mapOf(
+                "Accept" to "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+                "Accept-Language" to "en-US,en;q=0.5",
+                "Referer" to (referer ?: ""),
+            ))
+            val master = Regex("\\s*=\\s*'([^']+)").find(res.text)?.groupValues?.get(1)
             val key = res.document.getKeys() ?: throw ErrorLoadingException("can't generate key")
             val decrypt = AesHelper.cryptoAESHandler(master ?: return, key.toByteArray(), false)
                 ?.replace("\\", "")
@@ -350,6 +354,11 @@ class Streamwish : Filesim() {
     override var mainUrl = "https://streamwish.to"
 }
 
+class Wishfast : Filesim() {
+    override val name = "Wishfast"
+    override var mainUrl = "https://wishfast.top"
+}
+
 class FilelionsTo : Filesim() {
     override val name = "Filelions"
     override var mainUrl = "https://filelions.to"
@@ -392,4 +401,9 @@ class MultimoviesSB : StreamSB() {
 class Yipsu : Voe() {
     override val name = "Yipsu"
     override var mainUrl = "https://yip.su"
+}
+
+class Embedwish : Filesim() {
+    override val name = "Embedwish"
+    override var mainUrl = "https://embedwish.com"
 }

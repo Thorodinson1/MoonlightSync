@@ -14,6 +14,11 @@ data class AniIds(
     var idMal: Int? = null
 )
 
+data class TmdbDate(
+    val today: String,
+    val nextWeek: String,
+)
+
 data class AniMedia(
     @JsonProperty("id") var id: Int? = null,
     @JsonProperty("idMal") var idMal: Int? = null
@@ -70,21 +75,6 @@ data class KisskhDetail(
 data class KisskhResults(
     @JsonProperty("id") val id: Int?,
     @JsonProperty("title") val title: String?,
-)
-
-data class Jump1Episodes(
-    @JsonProperty("id") val id: Any? = null,
-    @JsonProperty("episodeNumber") val episodeNumber: Int? = null,
-    @JsonProperty("videoId") val videoId: String? = null,
-)
-
-data class Jump1Season(
-    @JsonProperty("seasonNumber") val seasonNumber: Int? = null,
-    @JsonProperty("id") val id: String? = null,
-)
-
-data class Jump1Movies(
-    @JsonProperty("movies") val movies: ArrayList<Jump1Episodes>? = arrayListOf(),
 )
 
 data class DriveBotLink(
@@ -392,4 +382,32 @@ data class SFMoviesData(
 
 data class SFMoviesSearch(
     @JsonProperty("data") var data: ArrayList<SFMoviesData>? = arrayListOf(),
+)
+
+data class RidoContentable(
+    @JsonProperty("imdbId") var imdbId: String? = null,
+    @JsonProperty("tmdbId") var tmdbId: Int? = null,
+)
+
+data class RidoItems(
+    @JsonProperty("slug") var slug: String? = null,
+    @JsonProperty("contentable") var contentable: RidoContentable? = null,
+)
+
+data class RidoData(
+    @JsonProperty("url") var url: String? = null,
+    @JsonProperty("items") var items: ArrayList<RidoItems>? = arrayListOf(),
+)
+
+data class RidoResponses(
+    @JsonProperty("data") var data: ArrayList<RidoData>? = arrayListOf(),
+)
+
+data class RidoSearch(
+    @JsonProperty("data") var data: RidoData? = null,
+)
+
+data class SmashySources(
+    @JsonProperty("sourceUrls") var sourceUrls: ArrayList<String>? = arrayListOf(),
+    @JsonProperty("subtitleUrls") var subtitleUrls: String? = null,
 )
