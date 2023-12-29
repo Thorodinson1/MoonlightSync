@@ -2,6 +2,12 @@ package com.hexated
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
+data class ShowboxMedia(
+    val url: String,
+    val title: String,
+    val infor: String,
+    val type: String,
+)
 data class FDMovieIFrame(
     val link: String,
     val quality: String,
@@ -152,17 +158,31 @@ data class JikanResponse(
     @JsonProperty("data") val data: JikanData? = null,
 )
 
-data class WatchOnlineSubtitles(
+data class CinemaTvSubtitles(
     @JsonProperty("language") val language: String? = null,
     @JsonProperty("file") val file: Any? = null,
 )
 
-data class WatchOnlineResponse(
+data class CinemaTvResponse(
     @JsonProperty("streams") val streams: HashMap<String, String>? = null,
-    @JsonProperty("subtitles") val subtitles: ArrayList<WatchOnlineSubtitles>? = arrayListOf(),
+    @JsonProperty("subtitles") val subtitles: ArrayList<CinemaTvSubtitles>? = arrayListOf(),
 )
 
-data class FmoviesSubtitles(
+data class VidsrctoResult(
+    @JsonProperty("id") val id: String? = null,
+    @JsonProperty("title") val title: String? = null,
+    @JsonProperty("url") val url: String? = null,
+)
+
+data class VidsrctoResponse(
+    @JsonProperty("result") val result: VidsrctoResult? = null,
+)
+
+data class VidsrctoSources(
+    @JsonProperty("result") val result: ArrayList<VidsrctoResult>? = arrayListOf(),
+)
+
+data class VidsrctoSubtitles(
     @JsonProperty("label") val label: String? = null,
     @JsonProperty("file") val file: String? = null,
 )
@@ -320,26 +340,6 @@ data class EMovieTraks(
     @JsonProperty("label") val label: String? = null,
 )
 
-data class BlackvidSubtitles(
-    @JsonProperty("language") val language: String? = null,
-    @JsonProperty("url") val url: String? = null,
-)
-
-data class BlackvidSource(
-    @JsonProperty("quality") var quality: String? = null,
-    @JsonProperty("url") var url: String? = null,
-)
-
-data class BlackvidSources(
-    @JsonProperty("label") var label: String? = null,
-    @JsonProperty("sources") var sources: ArrayList<BlackvidSource> = arrayListOf()
-)
-
-data class BlackvidResponses(
-    @JsonProperty("sources") var sources: ArrayList<BlackvidSources> = arrayListOf(),
-    @JsonProperty("subtitles") var subtitles: ArrayList<BlackvidSubtitles> = arrayListOf()
-)
-
 data class ShowflixResultsMovies(
     @JsonProperty("movieName") val movieName: String? = null,
     @JsonProperty("streamwish") val streamwish: String? = null,
@@ -411,3 +411,55 @@ data class SmashySources(
     @JsonProperty("sourceUrls") var sourceUrls: ArrayList<String>? = arrayListOf(),
     @JsonProperty("subtitleUrls") var subtitleUrls: String? = null,
 )
+
+data class SmashyDSources(
+    @JsonProperty("sourceUrls") var sourceUrls: ArrayList<SmashyDSourcesUrls>? = arrayListOf(),
+)
+
+data class SmashyDSourcesUrls(
+    @JsonProperty("file") var file: String? = null,
+    @JsonProperty("title") var title: String? = null,
+)
+
+data class AoneroomResponse(
+    @JsonProperty("data") val data: Data? = null,
+) {
+    data class Data(
+        @JsonProperty("items") val items: ArrayList<Items>? = arrayListOf(),
+        @JsonProperty("list") val list: ArrayList<List>? = arrayListOf(),
+    ) {
+        data class Items(
+            @JsonProperty("subjectId") val subjectId: String? = null,
+            @JsonProperty("title") val title: String? = null,
+            @JsonProperty("releaseDate") val releaseDate: String? = null,
+        )
+
+        data class List(
+            @JsonProperty("resourceLink") val resourceLink: String? = null,
+            @JsonProperty("extCaptions") val extCaptions: ArrayList<ExtCaptions>? = arrayListOf(),
+            @JsonProperty("se") val se: Int? = null,
+            @JsonProperty("ep") val ep: Int? = null,
+            @JsonProperty("resolution") val resolution: Int? = null,
+        ) {
+            data class ExtCaptions(
+                @JsonProperty("lanName") val lanName: String? = null,
+                @JsonProperty("url") val url: String? = null,
+            )
+        }
+    }
+}
+
+data class FebboxResponse(
+    @JsonProperty("data") val data: Data? = null,
+) {
+    data class Data(
+        @JsonProperty("link") val link: String? = null,
+        @JsonProperty("file_list") val file_list: ArrayList<FileList>? = arrayListOf(),
+    ) {
+        data class FileList(
+            @JsonProperty("fid") val fid: Long? = null,
+            @JsonProperty("file_name") val file_name: String? = null,
+            @JsonProperty("oss_fid") val oss_fid: Long? = null,
+        )
+    }
+}

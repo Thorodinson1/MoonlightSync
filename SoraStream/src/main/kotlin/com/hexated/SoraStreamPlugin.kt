@@ -20,12 +20,16 @@ class SoraStreamPlugin: Plugin() {
         registerExtractorAPI(Playm4u())
         registerExtractorAPI(VCloud())
         registerExtractorAPI(Pixeldra())
-        registerExtractorAPI(Hubcloud())
         registerExtractorAPI(M4ufree())
         registerExtractorAPI(Streamruby())
         registerExtractorAPI(Streamwish())
         registerExtractorAPI(FilelionsTo())
         registerExtractorAPI(Embedwish())
         registerExtractorAPI(Wishfast())
+        registerExtractorAPI(Uploadever())
+        registerExtractorAPI(Netembed())
+        registerExtractorAPI(Vidplay2())
+        registerExtractorAPI(Flaswish())
+        registerExtractorAPI(Comedyshow())
     }
 }
