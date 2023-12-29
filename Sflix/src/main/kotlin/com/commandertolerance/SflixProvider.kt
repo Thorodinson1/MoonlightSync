@@ -111,8 +111,7 @@ open class SflixProvider : MainAPI() {
                     fix = true
                 ) {
                     posterUrl = image
-                    year
-                    episodes
+                    //this.year = year
                     this.quality = quality
                 }
             }
@@ -185,9 +184,7 @@ open class SflixProvider : MainAPI() {
                     recUrl,
                     type = if (recUrl.contains("/movie/")) TvType.Movie else TvType.TvSeries,
                     ) {
-                    recTitle
                     this.posterUrl = poster
-                    year = null
                 }
             }
 
@@ -199,14 +196,15 @@ open class SflixProvider : MainAPI() {
             // Supported streams, they're identical
             val sourceIds = Jsoup.parse(episodes).select("a").mapNotNull { element ->
                 var sourceId = element.attr("data-id")
+                val serverName = element.select("span").text().trim()
                 if (sourceId.isNullOrEmpty())
                     sourceId = element.attr("data-linkid")
 
                 if (element.select("span").text().trim().isValidServer()) {
                     if (sourceId.isNullOrEmpty()) {
-                        fixUrlNull(element.attr("href"))
+                        fixUrlNull(element.attr("href")) to serverName
                     } else {
-                        "$url.$sourceId".replace("/movie/", "/watch-movie/")
+                        "$url.$sourceId".replace("/movie/", "/watch-movie/") to serverName
                     }
                 } else {
                     null
@@ -334,15 +332,16 @@ open class SflixProvider : MainAPI() {
             // Supported streams, they're identical
             app.get(episodesUrl).document.select("a").mapNotNull { element ->
                 val id = element?.attr("data-id") ?: return@mapNotNull null
+                val serverName = element.select("span").text().trim()
                 if (element.select("span").text().trim().isValidServer()) {
-                    "$prefix.$id".replace("/tv/", "/watch-tv/")
+                    "$prefix.$id".replace("/tv/", "/watch-tv/") to serverName
                 } else {
                     null
                 }
             }
-        } ?: tryParseJson<List<String>>(data))?.distinct()
+        } ?: tryParseJson<List<Pair<String?, String>>>(data))?.distinct()
 
-        urls?.apmap { url ->
+        urls?.apmap { (url, serverName) ->
             suspendSafeApiCall {
                 // Possible without token
 
@@ -352,7 +351,7 @@ open class SflixProvider : MainAPI() {
 //                        .attr("src").substringAfter("render=")
 //                val token = getCaptchaToken(mainUrl, key) ?: return@suspendSafeApiCall
 
-                val serverId = url.substringAfterLast(".")
+                val serverId = url?.substringAfterLast(".") ?: return@suspendSafeApiCall
                 val iframeLink =
                     app.get("${this.mainUrl}/ajax/get_link/$serverId").parsed<IframeJson>().link
                         ?: return@suspendSafeApiCall
@@ -360,8 +359,23 @@ open class SflixProvider : MainAPI() {
                 // Some smarter ws11 or w10 selection might be required in the future.
 //                val extractorData =
 //                    "https://ws11.rabbitstream.net/socket.io/?EIO=4&transport=polling"
+                val res =
+                    !loadExtractor(iframeLink, null, subtitleCallback) { extractorLink ->
+                        callback.invoke(
+                            ExtractorLink(
+                                source = serverName,
+                                name = serverName,
+                                url = extractorLink.url,
+                                referer = extractorLink.referer,
+                                quality = extractorLink.quality,
+                                type = extractorLink.type,
+                                headers = extractorLink.headers,
+                                extractorData = extractorLink.extractorData
+                            )
+                        )
+                    }
 
-                if (!loadExtractor(iframeLink, null, subtitleCallback, callback)) {
+                if (res) {
                     extractRabbitStream(
                         iframeLink,
                         subtitleCallback,
@@ -413,10 +427,9 @@ open class SflixProvider : MainAPI() {
                 type = TvType.Movie,
                 fix = true
             ) {
-                this@SflixProvider.name
                 this.posterUrl = posterUrl
-                year = year
-                quality = quality
+                this.year = year
+                this.quality = quality
             }
         } else {
             newTvSeriesSearchResponse(
@@ -426,9 +439,8 @@ open class SflixProvider : MainAPI() {
                 fix = true
             ) {
                 this.posterUrl = posterUrl
-                year = year
-                episodes
-                quality = quality
+                //this.year = year
+                this.quality = quality
             }
         }
     }
